@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mother's Day Card</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #1a1a1a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Lato', sans-serif;
+    }
+
+    .hint {
+      color: #888;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      transition: opacity 0.5s;
+    }
+
+    .card-container {
+      width: 340px;
+      height: 480px;
+      perspective: 1200px;
+      cursor: pointer;
+    }
+
+    .card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.9s cubic-bezier(0.4, 0.2, 0.2, 1);
+      border-radius: 18px;
+    }
+
+    .card.flipped {
+      transform: rotateY(-180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 18px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+
+    /* ── FRONT ── */
+    .card-front {
+      background: #fdf8f4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 30px;
+    }
+
+    .front-accent {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #d4a0a0, #c8b8d8);
+      border-radius: 2px;
+      margin-bottom: 28px;
+    }
+
+    .front-floral {
+      font-size: 52px;
+      margin-bottom: 24px;
+      filter: saturate(0.7);
+    }
+
+    .front-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: #3a2e2e;
+      text-align: center;
+      line-height: 1.3;
+      letter-spacing: 0.5px;
+    }
+
+    .front-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 15px;
+      color: #b08080;
+      margin-top: 10px;
+      letter-spacing: 1px;
+    }
+
+    .front-accent-bottom {
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, #c8b8d8, #d4a0a0);
+      border-radius: 2px;
+      margin-top: 28px;
+    }
+
+    .front-tap {
+      position: absolute;
+      bottom: 20px;
+      font-size: 11px;
+      color: #c0a8a8;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ── BACK (inside) ── */
+    .card-back {
+      background: #fdf6f0;
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 44px 34px;
+    }
+
+    .back-top-line {
+      width: 50px;
+      height: 2px;
+      background: linear-gradient(90deg, #d4a0a0, #c8b8d8);
+      border-radius: 2px;
+      margin-bottom: 30px;
+    }
+
+    .back-message {
+      font-family: 'Playfair Display', serif;
+      font-size: 15.5px;
+      color: #3a2e2e;
+      text-align: center;
+      line-height: 1.85;
+    }
+
+    .back-message .greeting {
+      font-size: 18px;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 16px;
+      color: #2e2020;
+    }
+
+    .back-divider {
+      width: 30px;
+      height: 1px;
+      background: #d4a0a0;
+      margin: 22px auto;
+    }
+
+    .back-closing {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 16px;
+      color: #3a2e2e;
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    .back-closing .signature {
+      font-size: 18px;
+      font-weight: 600;
+      font-style: normal;
+      display: block;
+      margin-top: 8px;
+      color: #2e2020;
+    }
+
+    .back-bottom-line {
+      width: 50px;
+      height: 2px;
+      background: linear-gradient(90deg, #c8b8d8, #d4a0a0);
+      border-radius: 2px;
+      margin-top: 30px;
+    }
+
+    .tap-label {
+      margin-top: 20px;
+      color: #999;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hint" id="hint">Tap the card to open it 💌</div>
+
+  <div class="card-container" onclick="flipCard()">
+    <div class="card" id="card">
+
+      <!-- FRONT -->
+      <div class="card-front">
+        <div class="front-accent"></div>
+        <div class="front-floral">🌸</div>
+        <div class="front-title">Happy<br>Mother's Day</div>
+        <div class="front-subtitle">with all my love</div>
+        <div class="front-accent-bottom"></div>
+        <div class="front-tap">Tap to open</div>
+      </div>
+
+      <!-- INSIDE -->
+      <div class="card-back">
+        <div class="back-top-line"></div>
+        <div class="back-message">
+          <span class="greeting">Mom,</span>
+          Thank you for your love,<br>
+          your strength, and your<br>
+          endless support.<br><br>
+          You mean more to me<br>
+          than words can say.
+        </div>
+        <div class="back-divider"></div>
+        <div class="back-closing">
+          I love you with all my heart.
+          <span class="signature">Your son, Mark 💗</span>
+        </div>
+        <div class="back-bottom-line"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="tap-label" id="tapLabel">tap to flip back</div>
+
+  <script>
+    let flipped = false;
+    function flipCard() {
+      flipped = !flipped;
+      document.getElementById('card').classList.toggle('flipped', flipped);
+      document.getElementById('hint').style.opacity = flipped ? '0' : '1';
+      document.getElementById('tapLabel').textContent = flipped ? 'tap to close' : 'tap to flip back';
+    }
+  </script>
+</body>
+</html>
